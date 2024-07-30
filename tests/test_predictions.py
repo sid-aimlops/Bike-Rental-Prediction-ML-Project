@@ -8,6 +8,7 @@ parent, root = file.parent, file.parents[1]
 sys.path.append(str(root))
 
 import numpy as np
+import warnings
 from sklearn.metrics import mean_squared_error, r2_score
 
 from bikeshare_model.predict import make_prediction
@@ -16,6 +17,10 @@ from bikeshare_model.predict import make_prediction
 def test_make_prediction(sample_input_data):
     # Given
     expected_num_of_predictions = 3476
+    
+    # Suppress specific numpy deprecation warnings during the test
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=DeprecationWarning, message="np.find_common_type is deprecated")
 
     # When
     result = make_prediction(input_data = sample_input_data[0])
